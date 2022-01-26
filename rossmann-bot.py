@@ -1,4 +1,3 @@
-import os
 import requests
 import json
 import pandas as pd
@@ -13,7 +12,7 @@ TOKEN = '5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY'
 # Get updates
 #https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/getUpdates
 ## Webhook
-#https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/setWebhook?url=https://2c1e-70-52-175-39.ngrok.io
+https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/setWebhook?url=https://sebmatecho-telegram-bot.herokuapp.com/
 # Send Messages
 #https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/sendMessage?chat_id=1133597071&text=Hi, Sebmatecho. Doing great, thanks!
 
@@ -114,6 +113,6 @@ def index():
 		return '<h1> Rossmann Telegram BOT </h1>'
 
 if __name__ == '__main__':
-	port= os.environ.get('PORT',5000 )
+	port = os.environ.get('PORT', 5000)
 	app.run(host='127.0.0.1', port = port)
 
