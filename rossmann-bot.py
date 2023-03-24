@@ -5,17 +5,6 @@ import pandas as pd
 from flask import Flask, request, Response
 
 
-#constants
-TOKEN = '6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw'
-
-# Info about the bot
-#https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/getMe
-# Get updates
-#https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/getUpdates
-## Webhook
-# https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/setWebhook?url=https://sebmatecho-telegram-bot.herokuapp.com/
-# Send Messages
-#https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/sendMessage?chat_id=1133597071&text=Hi, Sebmatecho. Doing great, thanks!
 
 
 def send_message(chat_id, text):
