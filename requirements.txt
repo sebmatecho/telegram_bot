@@ -33,3 +33,4 @@ Werkzeug==2.0.1
 wincertstore==0.2
 xgboost==1.4.2
 zope.interface==5.4.0
+gunicorn

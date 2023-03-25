@@ -4,6 +4,23 @@ import json
 import pandas as pd
 from flask import Flask, request, Response
 
+from gunicorn.app.base import BaseApplication
+class StandaloneApplication(BaseApplication):
+    def __init__(self, app, options=None):
+        self.options = options or {}
+        self.application = app
+        super().__init__()
+
+    def load_config(self):
+        config = {key: value for key, value in self.options.items()
+                  if key in self.cfg.settings and value is not None}
+        for key, value in config.items():
+            self.cfg.set(key.lower(), value)
+
+    def load(self):
+        return self.application
+
+
 TOKEN = '6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw'
 API_url = 'https://rossmann-predict-api-c6nz.onrender.com'
 chat_id = '1133597071'
@@ -75,37 +92,49 @@ app = Flask(__name__)
 @app.route('/', methods = ['GET','POST'])
 def index():
 	if request.method == 'POST':
-		send_message(chat_id, 'Estoy funcionando') 
-		# message = request.get_json()
-		# chat_id, store_id = parse_message(message)
-		# if store_id!='error': 
-		# #loadind data
-		# 	data =load_dataset(store_id)
+		# send_message(chat_id, 'Estoy funcionando') 
+		message = request.get_json()
+		chat_id, store_id = parse_message(message)
+		if store_id!='error': 
+		#loadind data
+			data =load_dataset(store_id)
 
-		# 	if data!='error':
-		# #prediction
-		# 		d1 = predict(data)			
-		# #calculation
-		# 		d2 = d1[['store', 'prediction']].groupby( 'store' ).sum().reset_index()
-		# #send message
-		# 		msg = f'Store Number {d2['store'].values[0]} forecast for the next 6 weeks: ${d2['prediction'].values[0]:.2f}'
-		# 		send_message(chat_id,msg)
-		# 		return Response('Ok', status = 200)
-		# 	else:	 
-		# 		send_message(chat_id, 'Store not available')
-		# 		return Response('Ok', status =200)
+			if data!='error':
+		#prediction
+				d1 = predict(data)			
+		#calculation
+				d2 = d1[['store', 'prediction']].groupby( 'store' ).sum().reset_index()
+		#send message
+				msg = f'Store Number {d2['store'].values[0]} forecast for the next 6 weeks: ${d2['prediction'].values[0]:.2f}'
+				send_message(chat_id,msg)
+				return Response('Ok', status = 200)
+			else:	 
+				send_message(chat_id, 'Store not available')
+				return Response('Ok', status =200)
 
-		# else:
-		# 	send_message( chat_id, 'Store ID is wrong')
-		# 	return Response('Ok', status = 200)
+		else:
+			send_message( chat_id, 'Store ID is wrong')
+			return Response('Ok', status = 200)
 		
 	else:
 		return '<h1> Rossmann Telegram BOT </h1>'
 
+# if __name__ == '__main__':
+#     # Get the port from the environment variable, or use a default value
+#     port = int(os.environ.get('PORT', 5000))
+    
+#     # Run the Flask application using a production-ready web server, such as uWSGI or Gunicorn
+#     app.run(host='0.0.0.0', port=port)
+
 if __name__ == '__main__':
     # Get the port from the environment variable, or use a default value
     port = int(os.environ.get('PORT', 5000))
-    
-    # Run the Flask application using a production-ready web server, such as uWSGI or Gunicorn
-    app.run(host='0.0.0.0', port=port)
-
+    # Run the Flask application using Gunicorn
+    gunicorn_options = {
+        'bind': f'0.0.0.0:{port}',
+        'workers': 2
+    }
+    from app import app
+    from werkzeug.middleware.proxy_fix import ProxyFix
+    app.wsgi_app = ProxyFix(app.wsgi_app)
+    StandaloneApplication(app, gunicorn_options).run()
