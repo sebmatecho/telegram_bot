@@ -15,12 +15,12 @@ TOKEN = '6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw'
 ## Webhook
 # https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/setWebhook?url=https://sebmatecho-telegram-bot.herokuapp.com/
 # Send Messages
-#https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/sendMessage?chat_id=1133597071&text=Hi, Sebmatecho. Doing great, thanks!
+#https://api.telegram.org/bot6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw/sendMessage?chat_id=1133597071&text=Hi, Sebmatecho. Doing great, thanks!
 
 
 def send_message(chat_id, text):
-	url = 'https://api.telegram.org/bot{}/'.format(TOKEN)
-	url = url + 'sendMessage?chat_id={}'.format(chat_id)
+	url = f'https://api.telegram.org/bot{TOKEN}/'
+	url = url + f'sendMessage?chat_id={chat_id}'
 	r = requests.post(url, json={'text':text})
 	print('Status Code {}'.format(r.status_code))
 
@@ -59,7 +59,7 @@ def predict(data):
 	data = data
 
 	r = requests.post( url, data=data, headers=header )
-	print( 'Status Code {}'.format( r.status_code ) )
+	print( f'Status Code {r.status_code}.' )
 
 	d1 = pd.DataFrame( r.json(), columns=r.json()[0].keys() )
 
@@ -85,8 +85,8 @@ app = Flask(__name__)
 def index():
 	if request.method == 'POST':
 		message = request.get_json()
-
 		chat_id, store_id = parse_message(message)
+		chat_id = '1133597071'
 		if store_id!='error': 
 		#loadind data
 			data =load_dataset(store_id)
@@ -115,5 +115,5 @@ def index():
 
 if __name__ == '__main__':
 	port = os.environ.get('PORT', 10000)
-	app.run(host='127.0.0.1', port = port)
+	app.run(host='0.0.0.0', port = port)
 
