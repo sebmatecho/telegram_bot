@@ -4,6 +4,8 @@ import json
 import pandas as pd
 from flask import Flask, request, Response
 
+TOKEN = st.secrets["TOKEN"]
+API_url = st.secrets['url']
 
 def send_message(chat_id, text):
 	url = f'https://api.telegram.org/bot{TOKEN}/'
@@ -41,7 +43,7 @@ def load_dataset(store_id):
 def predict(data):
 
 	# API Call
-	url = 'https://rossmann-predict-api-c6nz.onrender.com/rossmann/predict'
+	url = API_url
 	header = {'Content-type': 'application/json' } 
 	data = data
 
