@@ -6,6 +6,7 @@ from flask import Flask, request, Response
 
 TOKEN = '6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw'
 API_url = 'https://rossmann-predict-api-c6nz.onrender.com'
+chat_id = '1133597071'
 # TOKEN = st.secrets["TOKEN"]
 # API_url = st.secrets['url']
 
@@ -13,8 +14,7 @@ def send_message(chat_id, text):
 	url = f'https://api.telegram.org/bot{TOKEN}/'
 	url = url + f'sendMessage?chat_id={chat_id}'
 	r = requests.post(url, json={'text':text})
-	print('Status Code {}'.format(r.status_code))
-
+	print(f'Status Code {r.status_code}')
 	return None
 
 def load_dataset(store_id):
@@ -75,30 +75,29 @@ app = Flask(__name__)
 @app.route('/', methods = ['GET','POST'])
 def index():
 	if request.method == 'POST':
-		message = request.get_json()
-		chat_id, store_id = parse_message(message)
-		if store_id!='error': 
-		#loadind data
-			data =load_dataset(store_id)
+		send_message(chat_id, 'Estoy funcionando') 
+		# message = request.get_json()
+		# chat_id, store_id = parse_message(message)
+		# if store_id!='error': 
+		# #loadind data
+		# 	data =load_dataset(store_id)
 
-			if data!='error':
-		#prediction
-				d1 = predict(data)			
-		#calculation
-				d2 = d1[['store', 'prediction']].groupby( 'store' ).sum().reset_index()
-		#send message
-				msg =  'Store Number {} forecast for the next 6 weeks: ${:,.2f}'.format( 
-				d2['store'].values[0], 
-				d2['prediction'].values[0] ) 
-				send_message(chat_id,msg)
-				return Response('Ok', status = 200)
-			else:	 
-				send_message(chat_id, 'Store not available')
-				return Response('Ok', status =200)
+		# 	if data!='error':
+		# #prediction
+		# 		d1 = predict(data)			
+		# #calculation
+		# 		d2 = d1[['store', 'prediction']].groupby( 'store' ).sum().reset_index()
+		# #send message
+		# 		msg = f'Store Number {d2['store'].values[0]} forecast for the next 6 weeks: ${d2['prediction'].values[0]:.2f}'
+		# 		send_message(chat_id,msg)
+		# 		return Response('Ok', status = 200)
+		# 	else:	 
+		# 		send_message(chat_id, 'Store not available')
+		# 		return Response('Ok', status =200)
 
-		else:
-			send_message( chat_id, 'Store ID is wrong')
-			return Response('Ok', status = 200)
+		# else:
+		# 	send_message( chat_id, 'Store ID is wrong')
+		# 	return Response('Ok', status = 200)
 		
 	else:
 		return '<h1> Rossmann Telegram BOT </h1>'
