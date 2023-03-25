@@ -103,6 +103,9 @@ def index():
 		return '<h1> Rossmann Telegram BOT </h1>'
 
 if __name__ == '__main__':
-    port = os.environ.get('PORT', 5000)
-    app.run(host = '0.0.0.0', port = port)
+    # Get the port from the environment variable, or use a default value
+    port = int(os.environ.get('PORT', 5000))
+    
+    # Run the Flask application using a production-ready web server, such as uWSGI or Gunicorn
+    app.run(host='0.0.0.0', port=port)
 
