@@ -10,8 +10,6 @@ API_url = 'https://rossmann-predict-api-c6nz.onrender.com'
 # TOKEN = st.secrets["TOKEN"]
 # API_url = st.secrets['url']
 
-
-
 def send_message(chat_id, text):
 	url = f'https://api.telegram.org/bot{TOKEN}/'
 	url = url + f'sendMessage?chat_id={chat_id}'
@@ -107,6 +105,6 @@ def index():
 		return '<h1> Rossmann Telegram BOT </h1>'
 
 if __name__ == '__main__':
-	port = os.environ.get('PORT', 10000)
-	app.run(host='0.0.0.0', port = port)
+    port = os.environ.get('PORT', 5000)
+    app.run(host = '0.0.0.0', port = port)
 
