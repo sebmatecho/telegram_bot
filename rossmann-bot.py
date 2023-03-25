@@ -4,9 +4,12 @@ import requests
 import json
 import pandas as pd
 from flask import Flask, request, Response
+TOKEN = '6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw'
+API_url = 'https://rossmann-predict-api-c6nz.onrender.com'
+# TOKEN = st.secrets["TOKEN"]
+# API_url = st.secrets['url']
 
-TOKEN = st.secrets["TOKEN"]
-API_url = st.secrets['url']
+
 
 def send_message(chat_id, text):
 	url = f'https://api.telegram.org/bot{TOKEN}/'
