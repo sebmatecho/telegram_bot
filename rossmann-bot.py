@@ -5,20 +5,6 @@ import pandas as pd
 from flask import Flask, request, Response
 
 
-<<<<<<< HEAD
-#constants
-TOKEN = '6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw'
-
-# Info about the bot
-#https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/getMe
-# Get updates
-#https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/getUpdates
-## Webhook
-# https://api.telegram.org/bot5293016879:AAEZBzhu_MJXOxq1UHplKAd-Sxi2A7gHuIY/setWebhook?url=https://sebmatecho-telegram-bot.herokuapp.com/
-# Send Messages
-#https://api.telegram.org/bot6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw/sendMessage?chat_id=1133597071&text=Hi, Sebmatecho. Doing great, thanks!
-=======
->>>>>>> a7ffa82eaab1f6c516e9152459a1ff4491aec2d8
 
 
 def send_message(chat_id, text):
@@ -89,7 +75,6 @@ def index():
 	if request.method == 'POST':
 		message = request.get_json()
 		chat_id, store_id = parse_message(message)
-		chat_id = '1133597071'
 		if store_id!='error': 
 		#loadind data
 			data =load_dataset(store_id)
