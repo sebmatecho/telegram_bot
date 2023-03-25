@@ -4,28 +4,9 @@ import json
 import pandas as pd
 from flask import Flask, request, Response
 
-from gunicorn.app.base import BaseApplication
-class StandaloneApplication(BaseApplication):
-    def __init__(self, app, options=None):
-        self.options = options or {}
-        self.application = app
-        super().__init__()
 
-    def load_config(self):
-        config = {key: value for key, value in self.options.items()
-                  if key in self.cfg.settings and value is not None}
-        for key, value in config.items():
-            self.cfg.set(key.lower(), value)
-
-    def load(self):
-        return self.application
-
-
-TOKEN = '6121126670:AAEua-3m7J0iAuP73wn4VaZvWtisAHC3TEw'
-API_url = 'https://rossmann-predict-api-c6nz.onrender.com'
-chat_id = '1133597071'
-# TOKEN = st.secrets["TOKEN"]
-# API_url = st.secrets['url']
+TOKEN = st.secrets["TOKEN"]
+API_url = st.secrets['url']
 
 def send_message(chat_id, text):
 	url = f'https://api.telegram.org/bot{TOKEN}/'
@@ -119,22 +100,10 @@ def index():
 	else:
 		return '<h1> Rossmann Telegram BOT </h1>'
 
-# if __name__ == '__main__':
-#     # Get the port from the environment variable, or use a default value
-#     port = int(os.environ.get('PORT', 5000))
-    
-#     # Run the Flask application using a production-ready web server, such as uWSGI or Gunicorn
-#     app.run(host='0.0.0.0', port=port)
-
 if __name__ == '__main__':
     # Get the port from the environment variable, or use a default value
     port = int(os.environ.get('PORT', 5000))
-    # Run the Flask application using Gunicorn
-    gunicorn_options = {
-        'bind': f'0.0.0.0:{port}',
-        'workers': 2
-    }
-    from app import app
-    from werkzeug.middleware.proxy_fix import ProxyFix
-    app.wsgi_app = ProxyFix(app.wsgi_app)
-    StandaloneApplication(app, gunicorn_options).run()
+    
+    # Run the Flask application using a production-ready web server, such as uWSGI or Gunicorn
+    app.run(host='0.0.0.0', port=port)
+
